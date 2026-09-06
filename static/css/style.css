@@ -5,24 +5,31 @@
 }
 
 :root {
-    --ink: #1c1719;
-    --paper: #faf0f4;
-    --accent: #ce608a;
-    --accent-dark: #8e3c5e;
-    --line: #e3c9d5;
-    --text-muted: #6b5961;
+    --ink: #332629;
+    --paper: #FFFDF2;
+    --accent: #E86F91;
+    --accent-light: #F7B8C9;
+    --lemon: #F5D96B;
+    --line: #F0D9A6;
+    --text-muted: #806B70;
     --radius: 4px;
 }
 
 body {
-    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: "DM Mono", -apple-system, Roboto, Helvetica, Arial, sans-serif;
     color: var(--ink);
-    background-color: var(--paper);
+    background: linear-gradient(
+        180deg,
+        #F8DCE7 0%,
+        #FDF2F6 35%,
+        #FFF9FB 70%,
+        #FFFFFF 100%
+    );
     line-height: 1.6;
 }
 
 h1, .brand {
-    font-family: "Space Grotesk", -apple-system, sans-serif;
+    font-family: "Ingrid Darling", -apple-system, sans-serif;
 }
 
 .container {
@@ -43,7 +50,7 @@ h1, .brand {
 }
 
 .brand {
-    font-size: 1.3rem;
+    font-size: 2rem;
     font-weight: 700;
     color: var(--ink);
     text-decoration: none;
@@ -57,14 +64,119 @@ h1, .brand {
 .site-header nav a {
     color: var(--ink);
     text-decoration: none;
-    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.site-header nav a:hover {
+    color: var(--accent);
+}
+
+/* marquee */
+
+.marquee {
+    width: 100%;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+    padding: 0.55rem 0;
+    background-color: var(--accent);
+}
+
+.marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 18s linear infinite;
+    will-change: transform;
+}
+
+.marquee-track span {
+    flex-shrink: 0;
+    padding-right: 2rem;
+    font-family: "DM Mono", sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--paper);
+    white-space: nowrap;
+}
+
+@keyframes marquee {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
 }
 
 .hero {
     padding: 4.5rem 0 5rem;
+    position: relative;
+}
+
+/* stars */
+
+.star {
+    position: absolute;
+    z-index: 0;
+    font-size: 2.2rem;
+    line-height: 1;
+    pointer-events: none;
+}
+
+.star-1 {
+    top: 12%;
+    left: 8%;
+    font-size: 2.5rem;
+    color: var(--lemon);
+}
+
+.star-2 {
+    top: 30%;
+    right: 7%;
+    font-size: 1.8rem;
+    color: var(--accent);
+}
+
+.star-3 {
+    top: 58%;
+    left: 5%;
+    font-size: 2rem;
+    color: var(--accent-light);
+}
+
+.star-4 {
+    bottom: 18%;
+    right: 15%;
+    font-size: 2.8rem;
+    color: var(--lemon);
+}
+
+.star-5 {
+    bottom: 8%;
+    left: 40%;
+    font-size: 1.5rem;
+    color: var(--accent);
+}
+
+.star-6 {
+    top: 7%;
+    right: 28%;
+    font-size: 1.3rem;
+    color: var(--accent-light);
+}
+
+.star-7 {
+    bottom: 12%;
+    left: 22%;
+    font-size: 1.8rem;
+    color: var(--lemon);
 }
 
 .hero-grid {
+    position: relative;
+    z-index: 1;
     display: grid;
     grid-template-columns: 1.3fr 1fr;
     grid-template-areas:
@@ -85,13 +197,13 @@ h1, .brand {
     font-size: 0.85rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--accent-dark);
+    color: var(--accent);
     font-weight: 700;
     margin-bottom: 0.75rem;
 }
 
 .hero-identity h1 {
-    font-size: clamp(3rem, 7vw, 5rem);
+    font-size: clamp(3rem, 8vw, 5rem);
     line-height: 0.95;
 }
 
@@ -130,16 +242,20 @@ h1, .brand {
     font-size: 0.85rem;
     font-weight: 600;
     text-decoration: none;
-    color: var(--paper);
-    background-color: var(--ink);
-    border-radius: var(--radius);
+    color: var(--ink);
+    background-color: var(--paper);
+    border: 1px solid var(--ink);
+    border-radius: 999px;
     padding: 0.5rem 1.1rem;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .social-link:hover {
-    background-color: var(--accent);
+    background-color: var(--accent-light);
+    transform: translateY(-2px);
 }
+
+/* photo */
 
 .hero-photo {
     grid-area: photo;
@@ -147,23 +263,11 @@ h1, .brand {
     position: relative;
 }
 
-.photo-block {
-    position: absolute;
-    top: 1.25rem;
-    left: 1.25rem;
-    width: 100%;
-    height: 100%;
-    background-color: var(--accent);
-    border-radius: var(--radius);
-    z-index: 0;
-}
-
 .avatar {
-    position: relative;
-    z-index: 1;
     display: block;
     width: 100%;
-    aspect-ratio: 1 / 1;
+    max-width: 280px;
+    aspect-ratio: 4 / 5;
     object-fit: cover;
     border-radius: var(--radius);
     border: 3px solid var(--ink);
