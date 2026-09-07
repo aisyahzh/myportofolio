@@ -4,6 +4,7 @@
     box-sizing: border-box;
 }
 
+/* Warna utama yang digunakan di seluruh website */
 :root {
     --ink: #332629;
     --paper: #FFFDF2;
@@ -76,8 +77,7 @@ h1, .brand {
     color: var(--accent);
 }
 
-/* marquee */
-
+/* Banner bergerak sebagai pemisah antara header dan profile */
 .marquee {
     width: 100%;
     overflow: hidden;
@@ -118,8 +118,7 @@ h1, .brand {
     position: relative;
 }
 
-/* stars */
-
+/* Dekorasi bintang yang ditempatkan di belakang profile */
 .star {
     position: absolute;
     z-index: 0;
@@ -128,6 +127,7 @@ h1, .brand {
     pointer-events: none;
 }
 
+/* Mengatur posisi, ukuran, dan warna setiap bintang */
 .star-1 {
     top: 12%;
     left: 8%;
@@ -258,8 +258,7 @@ h1, .brand {
     transform: translateY(-2px);
 }
 
-/* photo */
-
+/* Photo */
 .hero-photo {
     grid-area: photo;
     align-self: center;
@@ -281,8 +280,7 @@ h1, .brand {
     transform: translateY(-5px) rotate(1deg);
 }
 
-/* experience */
-
+/* Membuat section experience */
 .experience {
     margin: 2rem auto 5rem;
     max-width: 1250px;
@@ -315,6 +313,7 @@ h1, .brand {
     color: var(--accent);
 }
 
+/* Menyusun kartu experience secara horizontal agar dapat di-scroll */
 .experience-list {
     display: flex;
     gap: 1rem;
@@ -380,6 +379,7 @@ h1, .brand {
     white-space: nowrap;
 }
 
+/* Membuat detail experience dapat dibuka dan ditutup */
 .experience-item details {
     border-top: 1px solid var(--line);
     padding-top: 0.9rem;
@@ -393,6 +393,7 @@ h1, .brand {
     transition: transform 0.2s ease;
 }
 
+/* Menghilangkan marker bawaan browser pada elemen summary */
 .experience-item summary::-webkit-details-marker {
     display: none;
 }
@@ -451,6 +452,7 @@ h1, .brand {
     border-top: 1px solid var(--line);
 }
 
+/* Menyesuaikan layout untuk layar berukuran kecil */
 @media (max-width: 600px) {
     .hero-grid {
         grid-template-columns: 1fr;
