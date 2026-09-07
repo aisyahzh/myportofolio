@@ -20,9 +20,9 @@ body {
     color: var(--ink);
     background: linear-gradient(
         180deg,
-        #F8DCE7 0%,
-        #FDF2F6 35%,
-        #FFF9FB 70%,
+        #F8DCE7 10%,
+        #FDF2F6 40%,
+        #FFF9FB 60%,
         #FFFFFF 100%
     );
     line-height: 1.6;
@@ -39,14 +39,18 @@ h1, .brand {
 }
 
 .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
     border-bottom: 1px solid var(--line);
+    background-color: var(--paper);
 }
 
 .site-header .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.25rem 1.5rem;
+    padding: 0.6rem 1.5rem;
 }
 
 .brand {
@@ -86,7 +90,6 @@ h1, .brand {
     display: flex;
     width: max-content;
     animation: marquee 18s linear infinite;
-    will-change: transform;
 }
 
 .marquee-track span {
@@ -271,6 +274,174 @@ h1, .brand {
     object-fit: cover;
     border-radius: var(--radius);
     border: 3px solid var(--ink);
+    transition: transform 0.2s ease;
+}
+
+.avatar:hover {
+    transform: translateY(-5px) rotate(1deg);
+}
+
+/* experience */
+
+.experience {
+    margin: 2rem auto 5rem;
+    max-width: 1250px;
+    padding: 3rem 2rem;
+    border: 2px dashed var(--ink);
+    border-radius: 24px;
+    background-color: #fff8fa;
+}
+
+.experience .container {
+    max-width: none;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.section-heading h2 {
+    font-family: "Ingrid Darling", cursive;
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    line-height: 1;
+}
+
+.heading-star {
+    font-size: 2.5rem;
+    color: var(--accent);
+}
+
+.experience-list {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 0.5rem 0 1rem;
+}
+
+.experience-item {
+    flex: 0 0 280px;
+    scroll-snap-align: start;
+    padding: 1.75rem;
+    border: 1px solid var(--ink);
+    border-radius: 18px;
+    background-color: var(--paper);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.experience-item:nth-child(1) {
+    background-color: #fffdf2;
+}
+
+.experience-item:nth-child(2) {
+    background-color: #f8d8e4;
+}
+
+.experience-item:nth-child(3) {
+    background-color: #fff1b8;
+}
+
+.experience-item:nth-child(4) {
+    background-color: #e8dff5;
+}
+
+.experience-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 4px 4px 0 var(--ink);
+}
+
+.experience-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.experience-header h3 {
+    font-size: 1.15rem;
+    margin-bottom: 0.4rem;
+}
+
+.experience-role {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    line-height: 1.7;
+}
+
+.experience-date {
+    flex-shrink: 0;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    white-space: nowrap;
+}
+
+.experience-item details {
+    border-top: 1px solid var(--line);
+    padding-top: 0.9rem;
+}
+
+.experience-item summary {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    list-style: none;
+    transition: transform 0.2s ease;
+}
+
+.experience-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.experience-item summary:hover {
+    transform: translate(3px, -2px);
+}
+
+.experience-description {
+    margin-top: 0.9rem;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    line-height: 1.7;
+}
+
+.experience-timeline {
+    margin-top: 1rem;
+}
+
+.timeline-item {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.timeline-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border: 1px solid var(--ink);
+    border-radius: 50%;
+    background-color: var(--paper);
+    flex-shrink: 0;
+}
+
+.timeline-dot-vpic {
+    margin-top: 5rem;
+}
+
+.timeline-line {
+    width: 1px;
+    height: 2rem;
+    margin-left: 0.22rem;
+    background-color: var(--ink);
+}
+
+.timeline-date {
+    display: block;
+    margin-top: 0.15rem;
+    color: var(--text-muted);
+    font-size: 0.7rem;
 }
 
 .site-footer {
@@ -291,6 +462,7 @@ h1, .brand {
 
     .hero-photo {
         max-width: 220px;
+        margin: 0 auto;
     }
 
     .social-links {
