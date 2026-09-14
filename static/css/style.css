@@ -280,169 +280,201 @@ h1, .brand {
     transform: translateY(-5px) rotate(1deg);
 }
 
-/* Membuat section experience */
-.experience {
-    margin: 2rem auto 5rem;
-    max-width: 1250px;
-    padding: 3rem 2rem;
-    border: 2px dashed var(--ink);
-    border-radius: 24px;
-    background-color: #fff8fa;
+/* EXPERIENCE */
+
+.experience-section {
+    padding: 3.5rem 0 5rem;
 }
 
-.experience .container {
-    max-width: none;
-}
-
-.section-heading {
+.experience-heading {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1rem;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
 }
 
-.section-heading h2 {
+.experience-heading h1 {
+    margin: 0;
     font-family: "Ingrid Darling", cursive;
-    font-size: clamp(3rem, 6vw, 4.5rem);
+    font-size: clamp(4rem, 7vw, 5.5rem);
     line-height: 1;
 }
 
 .heading-star {
-    font-size: 2.5rem;
+    font-size: 2rem;
     color: var(--accent);
 }
 
-/* Menyusun kartu experience secara horizontal agar dapat di-scroll */
+/* Experience grid */
+
 .experience-list {
-    display: flex;
-    gap: 1rem;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    padding: 0.5rem 0 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    justify-items: center;
 }
 
-.experience-item {
-    flex: 0 0 280px;
-    scroll-snap-align: start;
-    padding: 1.75rem;
+.experience-card {
+    width: 100%;
+    max-width: 420px;
+    aspect-ratio: 632 / 508;
+    position: relative;
+    isolation: isolate;
+}
+
+/* Decorative frames */
+
+.experience-frame {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.experience-frame::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+    transition: transform 0.35s ease, filter 0.35s ease;
+}
+
+.experience-card:nth-child(3n + 1) .experience-frame::before {
+    background-image: url("../img/frames/frame-1.png");
+}
+
+.experience-card:nth-child(3n + 2) .experience-frame::before {
+    background-image: url("../img/frames/frame-2.png");
+}
+
+.experience-card:nth-child(3n) .experience-frame::before {
+    background-image: url("../img/frames/frame-3.png");
+}
+
+/* Frame hover */
+
+.experience-card:hover .experience-frame::before {
+    transform: translateY(-7px);
+    filter: drop-shadow(0 0 8px var(--line));
+}
+
+/* Content */
+
+.experience-front,
+.experience-detail {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 72%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.experience-front {
+    opacity: 1;
+}
+
+.experience-detail {
+    opacity: 0;
+}
+
+.experience-category {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
     border: 1px solid var(--ink);
-    border-radius: 18px;
-    background-color: var(--paper);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 999px;
+    font-family: "DM Mono", monospace;
+    font-size: 0.65rem;
 }
 
-.experience-item:nth-child(1) {
-    background-color: #fffdf2;
-}
+/* Title + Thumbnail */
 
-.experience-item:nth-child(2) {
-    background-color: #f8d8e4;
-}
-
-.experience-item:nth-child(3) {
-    background-color: #fff1b8;
-}
-
-.experience-item:nth-child(4) {
-    background-color: #e8dff5;
-}
-
-.experience-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 4px 4px 0 var(--ink);
-}
-
-.experience-header {
+.experience-title {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 1rem;
-    margin-bottom: 1.25rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    margin: 0.7rem 0;
 }
 
-.experience-header h3 {
-    font-size: 1.15rem;
-    margin-bottom: 0.4rem;
+.experience-title h2 {
+    margin: 0;
+    font-family: "DM Mono", monospace;
+    font-size: 1.1rem;
+    line-height: 1.35;
 }
+
+.experience-thumbnail {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+/* Role */
 
 .experience-role {
+    margin-top: -0.3rem;
+    margin-bottom: 0.8rem;
     color: var(--text-muted);
-    font-size: 0.85rem;
-    line-height: 1.7;
+    font-size: 0.8rem;
+    line-height: 1.4;
 }
+
+/* Date */
 
 .experience-date {
-    flex-shrink: 0;
+    margin-top: 0.5rem;
+    font-size: 0.6rem;
     color: var(--text-muted);
-    font-size: 0.75rem;
-    white-space: nowrap;
 }
 
-/* Membuat detail experience dapat dibuka dan ditutup */
-.experience-item details {
-    border-top: 1px solid var(--line);
-    padding-top: 0.9rem;
+/* Description */
+
+.experience-detail > p:not(.experience-role):not(.experience-status) {
+    max-width: 280px;
+    margin: 0;
+    font-family: "DM Mono", monospace;
+    font-size: 0.65rem;
+    line-height: 1.5;
 }
 
-.experience-item summary {
-    display: inline-block;
-    font-size: 0.8rem;
-    font-weight: 600;
-    list-style: none;
-    transition: transform 0.2s ease;
+.experience-status {
+    margin-top: 0.7rem;
+    font-size: 0.6rem;
 }
 
-/* Menghilangkan marker bawaan browser pada elemen summary */
-.experience-item summary::-webkit-details-marker {
-    display: none;
+/* Hover content */
+
+.experience-card:hover .experience-front {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.94);
 }
 
-.experience-item summary:hover {
-    transform: translate(3px, -2px);
+.experience-card:hover .experience-detail {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
 }
 
-.experience-description {
-    margin-top: 0.9rem;
-    color: var(--text-muted);
-    font-size: 0.8rem;
-    line-height: 1.7;
-}
+/* Empty state */
 
-.experience-timeline {
-    margin-top: 1rem;
-}
-
-.timeline-item {
-    display: flex;
-    gap: 0.75rem;
-}
-
-.timeline-dot {
-    width: 0.5rem;
-    height: 0.5rem;
-    border: 1px solid var(--ink);
-    border-radius: 50%;
-    background-color: var(--paper);
-    flex-shrink: 0;
-}
-
-.timeline-dot-vpic {
-    margin-top: 5rem;
-}
-
-.timeline-line {
-    width: 1px;
-    height: 2rem;
-    margin-left: 0.22rem;
-    background-color: var(--ink);
-}
-
-.timeline-date {
-    display: block;
-    margin-top: 0.15rem;
-    color: var(--text-muted);
-    font-size: 0.7rem;
+.empty-state {
+    grid-column: 1 / -1;
+    font-family: "DM Mono", monospace;
+    text-align: center;
 }
 
 .site-footer {
@@ -452,68 +484,42 @@ h1, .brand {
     border-top: 1px solid var(--line);
 }
 
-.experience-section {
-    padding: 4rem 0;
-    border-top: 1px solid var(--line);
-}
-
-.section-kicker {
-    color: var(--accent-dark);
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-}
-
-.experience-section h1 {
-    margin: 0.4rem 0 1.5rem;
-    font-size: 2rem;
-}
-
-.experience-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1rem;
-}
-
-.experience-card {
-    padding: 1.25rem;
-    background-color: #fff;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-}
-
-.experience-category {
-    color: var(--accent-dark);
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-}
-
-.experience-card h2 {
-    margin: 0.5rem 0;
-    font-size: 1.25rem;
-}
-
-.experience-description,
-.empty-state {
-    color: var(--text-muted);
-}
-
-.experience-status {
-    margin-top: 1rem;
-    font-size: 0.85rem;
-    font-weight: 600;
-}
-
 /* Menyesuaikan layout untuk layar berukuran kecil */
+@media (max-width: 800px) {
+    .experience-list {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+
+    .experience-card {
+        max-width: 380px;
+    }
+}
+
 @media (max-width: 600px) {
     .hero-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; 
         grid-template-areas:
             "identity"
             "photo"
             "details";
+    }
+
+    .site-header .container {
+        flex-direction: column;
+        gap: 0.5rem;
+        padding-top: 0.7rem;
+        padding-bottom: 0.7rem;
+    }
+
+    .site-header .brand {
+        width: 100%;
+        font-size: 1.8rem;
+    }
+
+    .site-header nav {
+        width: 100%;
+        gap: 1.8rem;
     }
 
     .hero-photo {
