@@ -31,6 +31,7 @@ Website portofolio pribadi yang dibuat sebagai bagian dari Tugas PBP. Website in
 
 ## Project Structure
 
+```text
 myportfolio/
 ├── main/
 │   ├── migrations/
@@ -62,6 +63,7 @@ myportfolio/
 ├── manage.py
 ├── requirements.txt
 └── README.md
+```
 
 
 ## Local Setup
