@@ -368,8 +368,7 @@ h1, .brand {
 
 /* Content */
 
-.experience-front,
-.experience-detail {
+.experience-front, .experience-detail {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -469,6 +468,126 @@ h1, .brand {
     transform: translate(-50%, -50%) scale(1);
 }
 
+/* EDUCATION */
+
+.education-section {
+    padding: 3.5rem 0 5rem;
+}
+
+.education-heading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.education-heading h1 {
+    margin: 0;
+    font-family: "Ingrid Darling", cursive;
+    font-size: clamp(4rem, 7vw, 5.5rem);
+    line-height: 1;
+}
+
+.education-list {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.education-list::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 105px;
+    width: 1px;
+    background-color: var(--line);
+}
+
+.education-card {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 2rem;
+    position: relative;
+    padding-bottom: 3rem;
+}
+
+.education-card:last-child {
+    padding-bottom: 0;
+}
+
+.education-year {
+    padding-top: 0.4rem;
+    text-align: right;
+    font-size: 0.65rem;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+.education-content {
+    position: relative;
+    padding: 1.5rem;
+    background-color: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.education-card:hover .education-content {
+    transform: translateY(-6px);
+    border-color: var(--accent-light);
+    box-shadow: 0 8px 20px rgba(232, 111, 145, 0.15);
+}
+
+.education-content::before {
+    content: "";
+    position: absolute;
+    top: 1.3rem;
+    left: -1.5rem;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background-color: var(--accent);
+    border: 2px solid var(--paper);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.education-title {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 0.5rem;
+}
+
+.education-title h2 {
+    margin: 0;
+    font-family: "DM Mono", monospace;
+    font-size: 1.1rem;
+    line-height: 1.4;
+}
+
+.education-thumbnail {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.education-degree {
+    margin: 0 0 0.7rem;
+    color: var(--accent);
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.education-description {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    line-height: 1.6;
+}
+
 /* Empty state */
 
 .empty-state {
@@ -493,6 +612,27 @@ h1, .brand {
 
     .experience-card {
         max-width: 380px;
+    }
+
+    .education-list::before {
+        left: 75px;
+    }
+
+    .education-card {
+        grid-template-columns: 60px 1fr;
+        gap: 1.5rem;
+    }
+
+    .education-year {
+        font-size: 0.6rem;
+    }
+
+    .education-content {
+        padding: 1.2rem;
+    }
+
+    .education-content::before {
+        left: -1.0rem;
     }
 }
 
