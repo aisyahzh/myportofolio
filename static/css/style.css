@@ -343,20 +343,20 @@ h1, .brand {
     background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;
-    z-index: -1;
+    z-index: 0;
     transition: transform 0.35s ease, filter 0.35s ease;
 }
 
 .experience-card:nth-child(3n + 1) .experience-frame::before {
-    background-image: url("../img/frames/frame-1.png");
+    background-image: url("../img/frames/frame-1.PNG");
 }
 
 .experience-card:nth-child(3n + 2) .experience-frame::before {
-    background-image: url("../img/frames/frame-2.png");
+    background-image: url("../img/frames/frame-2.PNG");
 }
 
 .experience-card:nth-child(3n) .experience-frame::before {
-    background-image: url("../img/frames/frame-3.png");
+    background-image: url("../img/frames/frame-3.PNG");
 }
 
 /* Frame hover */
