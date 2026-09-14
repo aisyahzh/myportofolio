@@ -348,15 +348,15 @@ h1, .brand {
 }
 
 .experience-card:nth-child(3n + 1) .experience-frame::before {
-    background-image: url("../img/frames/frame-1.png");
+    background-image: url("../img/frames/frame-1.PNG");
 }
 
 .experience-card:nth-child(3n + 2) .experience-frame::before {
-    background-image: url("../img/frames/frame-2.png");
+    background-image: url("../img/frames/frame-2.PNG");
 }
 
 .experience-card:nth-child(3n) .experience-frame::before {
-    background-image: url("../img/frames/frame-3.png");
+    background-image: url("../img/frames/frame-3.PNG");
 }
 
 /* Frame hover */
