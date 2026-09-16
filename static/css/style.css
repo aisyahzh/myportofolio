@@ -603,6 +603,89 @@ h1, .brand {
     border-top: 1px solid var(--line);
 }
 
+.form-heading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.form-heading h1 {
+    margin: 0;
+    font-family: "Ingrid Darling", cursive;
+    font-size: clamp(3.5rem, 7vw, 5rem);
+    font-weight: 400;
+}
+
+.form-heading span {
+    color: var(--accent);
+}
+
+.experience-form, .education-form {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-family: "DM Mono", monospace;
+    font-size: 0.7rem;
+}
+
+.form-group input, .form-group textarea, .form-group select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.8rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    font-family: "DM Mono", monospace;
+    font-size: 0.7rem;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.form-error {
+    margin: 0.4rem 0 0;
+    color: var(--accent);
+    font-size: 0.65rem;
+}
+
+.form-actions {
+    display: flex;
+    gap: 0.7rem;
+    margin-top: 2rem;
+}
+
+.button {
+    padding: 0.75rem 1.2rem;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    background: var(--accent);
+    color: white;
+    font-family: "DM Mono", monospace;
+    font-size: 0.7rem;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.button-secondary {
+    background: transparent;
+    color: var(--accent);
+}
+
 /* Menyesuaikan layout untuk layar berukuran kecil */
 @media (max-width: 800px) {
     .experience-list {
@@ -669,5 +752,19 @@ h1, .brand {
 
     .social-links {
         justify-content: flex-start;
+    }
+
+    .experience-form, .education-form {
+        padding: 1.3rem;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .button {
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
     }
 }
