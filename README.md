@@ -15,6 +15,7 @@ Website portofolio pribadi yang dibuat sebagai bagian dari Tugas PBP. Website in
 - Personal profile
 - Experience section
 - Education section
+- Add/Edit/Delete
 - Responsive desktop/mobile layout
 - Semantic HTML5 structure
 - Social media links
@@ -41,6 +42,7 @@ myportfolio/
 │   ├── __init__.py
 │   ├── admin.py
 │   ├── apps.py
+│   ├── forms.py
 │   ├── models.py
 │   ├── tests.py
 │   ├── urls.py
@@ -57,8 +59,12 @@ myportfolio/
 │   │   └── style.css
 │   └── img/
 ├── templates/
+│   ├── components/
+│   │   └── education_delete_modal.html
 │   ├── education.html
+│   ├── education_form.html
 │   ├── experience.html
+│   ├── experience_form.html
 │   └── index.html
 ├── manage.py
 ├── requirements.txt
@@ -188,5 +194,35 @@ Pada Tugas 2, saya menambahkan model `Education` dengan beberapa field seperti `
 **AI Disclosure**
 
 Saya menggunakan ChatGPT sebagai alat bantu selama proses pengerjaan Tugas 2. AI digunakan untuk membantu memahami konsep Model-View-Template (MVT), mendiskusikan CSS yang saya perlukan tapi belum saya ketahui, serta membantu melakukan troubleshooting pada kode.
+
+Saya tetap memahami, memilih, dan mengimplementasikan perubahan pada kode secara manual. Setiap saran dari AI saya pertimbangkan kembali berdasarkan kebutuhan proyek dan ketentuan tugas.
+
+### Tugas 3
+
+> 1. Jelaskan mengapa kita menggunakan `ModelForm` pada Django alih-alih membuat form HTML secara manual. Selain itu, jelaskan pula mengapa kita diwajibkan menambahkan `{% csrf_token %}` pada form tersebut?
+
+**Jawaban:**
+
+`ModelForm` digunakan karena form bisa dibuat langsung berdasarkan model yang sudah ada. Jadi, saya tidak perlu membuat input dan validasi satu per satu secara manual. `ModelForm` juga memudahkan penyimpanan data karena data yang sudah valid bisa langsung disimpan dengan `form.save()`.
+
+`{% csrf_token %}` digunakan untuk melindungi form dari serangan CSRF. Token ini membantu Django memastikan bahwa data yang dikirim melalui form berasal dari website kita.
+
+> 2. Pada Tutorial 03, kita membahas format data JSON dan XML. Mengapa JSON lebih disukai dalam pengembangan aplikasi web modern dibandingkan XML?
+
+**Jawaban:**
+
+JSON lebih sering digunakan karena bentuknya lebih sederhana dan lebih ringkas dibandingkan XML. JSON juga lebih mudah dibaca dan lebih mudah digunakan dalam kode. Selain itu, JSON cocok digunakan untuk mengirim data antara server dan client, sehingga banyak digunakan dalam API.
+
+> 3. Jelaskan alur yang terjadi saat kamu menggunakan fungsi *view* untuk mengembalikan data portofoliomu dalam bentuk JSON. Mengapa kita perlu melakukan proses *serialization* pada model Django sebelum datanya dikembalikan?
+
+**Jawaban:**
+
+Pada website saya, fungsi `get_experience_json` mengambil data dari model `Experience`. Data tersebut kemudian diubah menjadi JSON menggunakan `serializers.serialize()` dan dikembalikan melalui `HttpResponse`.
+
+*Serialization* diperlukan karena data dari model Django masih berupa object Django. Data tersebut perlu diubah menjadi JSON agar bisa dikirim sebagai response. Setelah itu, JSON dapat di-*deserialize* kembali menjadi object Django untuk ditampilkan pada halaman Experience.
+
+### AI Disclosure
+
+Saya menggunakan ChatGPT sebagai alat bantu selama proses pengerjaan Tugas 3. AI digunakan untuk membantu memahami konsep-konsep yang belum diketahui serta membantu melakukan troubleshooting pada kode.
 
 Saya tetap memahami, memilih, dan mengimplementasikan perubahan pada kode secara manual. Setiap saran dari AI saya pertimbangkan kembali berdasarkan kebutuhan proyek dan ketentuan tugas.
