@@ -34,8 +34,12 @@
                                 {% endif %}
                                 <p class="education-description">{{ education.description }}</p>
 
-                                <div class="education-actions">
-                                    <a href="{% url 'main:update_education' education.id %}" class="button">Edit</a>
+                                <div class="education-actions" style="display: flex; justify-content: flex-end; align-items: center; gap: 0.7rem; margin-top: 1.2rem;">
+                                    <a href="{% url 'main:update_education' education.id %}" class="button" style="width: auto;">Edit</a>
+                                    <form method="post" action="{% url 'main:delete_education' education.id %}" onsubmit="return confirm('Are you sure you want to delete this education?');" style="margin: 0;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="button" style="width: auto;">Delete</button>
+                                    </form>
                                 </div>
                             </div>
                         </article>

@@ -80,3 +80,13 @@ def update_education(request, education_id):
         "education": education,
     }
     return render(request, "education_form.html", context)
+
+def delete_education(request, education_id):
+    education = get_object_or_404(Education, id=education_id)
+
+    if request.method == "POST":
+        education.delete()
+        messages.success(request, "Education deleted successfully!")
+        return redirect("main:show_education")
+
+    return redirect("main:show_education")
