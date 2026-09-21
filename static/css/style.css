@@ -588,6 +588,19 @@ h1, .brand {
     line-height: 1.6;
 }
 
+.education-actions {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: 1.2rem;
+}
+
+.education-actions .button {
+    width: auto;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.6rem;
+}
+
 /* Empty state */
 
 .empty-state {
@@ -673,7 +686,7 @@ h1, .brand {
     padding: 0.75rem 1.2rem;
     border: 1px solid var(--accent);
     border-radius: var(--radius);
-    background: var(--accent);
+    background: lime !important;
     color: white;
     font-family: "DM Mono", monospace;
     font-size: 0.7rem;
@@ -767,4 +780,8 @@ h1, .brand {
         box-sizing: border-box;
         text-align: center;
     }
+}
+
+body {
+    background: red !important;
 }

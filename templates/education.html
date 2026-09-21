@@ -33,6 +33,10 @@
                                     <p class="education-degree">{{ education.degree }}</p>
                                 {% endif %}
                                 <p class="education-description">{{ education.description }}</p>
+
+                                <div class="education-actions">
+                                    <a href="{% url 'main:update_education' education.id %}" class="button">Edit</a>
+                                </div>
                             </div>
                         </article>
                     {% empty %}

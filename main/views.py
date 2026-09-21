@@ -62,3 +62,21 @@ def create_education(request):
         "form": form,
     }
     return render(request, "education_form.html", context)
+
+
+def update_education(request, education_id):
+    education = get_object_or_404(Education, id=education_id)
+    form = EducationForm(request.POST or None, instance=education)
+
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Education updated successfully!")
+            return redirect("main:show_education")
+
+    context = {
+        "name": "Aisyah Zayyana Hanifah",
+        "form": form,
+        "education": education,
+    }
+    return render(request, "education_form.html", context)
