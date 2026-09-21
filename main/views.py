@@ -17,18 +17,39 @@ def show_main(request):
     }
     return render(request, "index.html", context)
 
-
 def show_experience(request):
+    json_response = get_experience_json(request)
+
+    experience_data = serializers.deserialize(
+        "json",
+        json_response.content.decode("utf-8"),
+    )
+    experience_list = [experience.object for experience in experience_data]
+
+    title_query = request.GET.get("title", "").strip()
+
     context = {
         "name": "Aisyah Zayyana Hanifah",
-        "experience_list": Experience.objects.all(),
+        "experience_list": experience_list,
+        "title_query": title_query,
     }
     return render(request, "experience.html", context)
 
 def show_education(request):
+    json_response = get_education_json(request)
+
+    education_data = serializers.deserialize(
+        "json",
+        json_response.content.decode("utf-8"),
+    )
+    education_list = [education.object for education in education_data]
+
+    institution_query = request.GET.get("institution", "").strip()
+
     context = {
         "name": "Aisyah Zayyana Hanifah",
-        "education_list": Education.objects.all(),
+        "education_list": education_list,
+        "institution_query": institution_query,
     }
     return render(request, "education.html", context)
 
@@ -62,6 +83,30 @@ def create_education(request):
         "form": form,
     }
     return render(request, "education_form.html", context)
+
+def get_experience_json(request):
+    title_query = request.GET.get("title", "").strip()
+    experience_list = Experience.objects.all()
+
+    if title_query:
+        experience_list = experience_list.filter(
+            title__icontains=title_query
+        )
+
+    experience_json = serializers.serialize("json", experience_list)
+    return HttpResponse(experience_json, content_type="application/json")
+
+def get_education_json(request):
+    institution_query = request.GET.get("institution", "").strip()
+    education_list = Education.objects.all()
+
+    if institution_query:
+        education_list = education_list.filter(
+            institution__icontains=institution_query
+        )
+
+    education_json = serializers.serialize("json", education_list)
+    return HttpResponse(education_json, content_type="application/json")
 
 
 def update_education(request, education_id):

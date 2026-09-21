@@ -9,6 +9,21 @@
                     <span class="heading-star">★</span>
                 </div>
 
+                <div class="experience-header">
+                    <a href="{% url 'main:create_experience' %}" class="button">+ Add Experience</a>
+                </div>
+
+                <form method="get" action="{% url 'main:show_experience' %}" class="experience-search">
+                    <input
+                        type="search"
+                        name="title"
+                        value="{{ title_query }}"
+                        placeholder="Search by title"
+                        aria-label="Search by title"
+                    >
+                    <button type="submit" class="button">Search</button>
+                </form>
+
                 <div class="experience-list">
                     {% for experience in experience_list %}
                         <article class="experience-card">

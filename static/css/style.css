@@ -479,7 +479,7 @@ h1, .brand {
     justify-content: center;
     align-items: center;
     gap: 1rem;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
 }
 
 .education-heading h1 {
@@ -487,6 +487,39 @@ h1, .brand {
     font-family: "Ingrid Darling", cursive;
     font-size: clamp(4rem, 7vw, 5.5rem);
     line-height: 1;
+}
+
+.education-header {
+    display: flex;
+    justify-content: flex-end;
+    margin: 1.5rem 0 0.8rem;
+}
+
+.education-search {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 2.5rem;
+}
+
+.education-search input {
+    width: 260px;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e9b4c5;
+    border-radius: 8px;
+    background: #fff;
+    font-family: inherit;
+    color: #33272a;
+}
+
+.education-search input:focus {
+    outline: none;
+    border-color: #e86b91;
+}
+
+.education-search .button {
+    width: auto;
 }
 
 .education-list {
@@ -591,7 +624,8 @@ h1, .brand {
 .education-actions {
     display: flex;
     justify-content: flex-end;
-    width: 100%;
+    align-items: center;
+    gap: 0.7rem;
     margin-top: 1.2rem;
 }
 
@@ -599,6 +633,76 @@ h1, .brand {
     width: auto;
     padding: 0.45rem 0.75rem;
     font-size: 0.6rem;
+}
+.education-delete-modal {
+    width: min(420px, calc(100vw - 2rem));
+    padding: 0;
+    border: none;
+    border-radius: 16px;
+    background: #fffaf5;
+    box-shadow: 0 15px 50px rgba(80, 40, 50, 0.25);
+    color: #33272a;
+    position: fixed;
+    inset: 0;
+    margin: auto;
+}
+
+.education-delete-modal::backdrop {
+    background: rgba(51, 39, 42, 0.45);
+}
+
+.education-delete-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: transparent;
+    cursor: default;
+}
+
+.education-delete-modal__content {
+    position: relative;
+    z-index: 1;
+    padding: 2rem;
+    text-align: center;
+}
+
+.education-delete-modal__content h2 {
+    margin: 0 0 0.8rem;
+    font-family: "DM Mono", monospace;
+    font-size: 1.5rem;
+}
+
+.education-delete-modal__content p {
+    margin: 0 0 1.8rem;
+    line-height: 1.6;
+}
+
+.education-delete-modal__close {
+    position: absolute;
+    top: 0.8rem;
+    right: 0.9rem;
+    border: none;
+    background: transparent;
+    color: #e86b91;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.education-delete-modal__actions {
+    display: flex;
+    justify-content: center;
+    gap: 0.7rem;
+}
+
+.education-delete-modal__actions form {
+    margin: 0;
+}
+
+.education-delete-modal__actions .button {
+    width: auto;
+    margin: 0;
 }
 
 /* Empty state */
@@ -615,6 +719,8 @@ h1, .brand {
     font-size: 0.85rem;
     border-top: 1px solid var(--line);
 }
+
+/* FORMS */
 
 .form-heading {
     display: flex;
@@ -686,7 +792,7 @@ h1, .brand {
     padding: 0.75rem 1.2rem;
     border: 1px solid var(--accent);
     border-radius: var(--radius);
-    background: lime !important;
+    background: var(--accent);
     color: white;
     font-family: "DM Mono", monospace;
     font-size: 0.7rem;
@@ -700,6 +806,7 @@ h1, .brand {
 }
 
 /* Menyesuaikan layout untuk layar berukuran kecil */
+
 @media (max-width: 800px) {
     .experience-list {
         grid-template-columns: 1fr;
@@ -728,13 +835,13 @@ h1, .brand {
     }
 
     .education-content::before {
-        left: -1.0rem;
+        left: -1rem;
     }
 }
 
 @media (max-width: 600px) {
     .hero-grid {
-        grid-template-columns: 1fr; 
+        grid-template-columns: 1fr;
         grid-template-areas:
             "identity"
             "photo"
@@ -775,13 +882,54 @@ h1, .brand {
         flex-direction: column;
     }
 
+    .education-header {
+        justify-content: stretch;
+    }
+
+    .education-header .button {
+        width: 100%;
+    }
+
+    .education-search {
+        flex-direction: column;
+    }
+
+    .education-search .button {
+        width: 100%;
+    }
+
+    .education-actions {
+        flex-direction: row;
+    }
+
+    .education-actions .button {
+        width: auto;
+        flex: 1;
+    }
+
+    .education-delete-modal {
+        align-items: flex-end;
+        padding: 0;
+    }
+
+    .education-delete-modal__content {
+        width: 100%;
+        padding: 1.25rem;
+        border-radius: var(--radius) var(--radius) 0 0;
+    }
+
+    .education-delete-modal__actions {
+        flex-direction: column-reverse;
+    }
+
+    .education-delete-modal__actions .button {
+        width: 100%;
+        text-align: center;
+    }
+
     .button {
         width: 100%;
         box-sizing: border-box;
         text-align: center;
     }
-}
-
-body {
-    background: red !important;
 }

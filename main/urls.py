@@ -6,6 +6,8 @@ from main.views import (
     show_education, 
     create_experience, 
     create_education,
+    get_experience_json,
+    get_education_json,
     update_education,
     delete_education
 )
@@ -18,6 +20,8 @@ urlpatterns = [
     path("education/", show_education, name="show_education"),
     path("experience/add/", create_experience, name="create_experience"),
     path("education/add/", create_education, name="create_education"),
+    path("api/experience/", get_experience_json, name="get_experience_json"),
+    path("api/education/", get_education_json, name="get_education_json"),
     path("education/<uuid:education_id>/edit/", update_education, name="update_education"),
     path("education/<uuid:education_id>/delete/", delete_education, name="delete_education"),
 ]
