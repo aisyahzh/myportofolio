@@ -10,10 +10,12 @@
                 </div>
 
                 <div class="education-header">
-                    <a href="{% url 'main:create_education' %}" class="button">+ Add Education</a>
+                    {% if user.is_superuser %}
+                        <a href="{% url 'main:create_education' %}" class="button">+ Add Education</a>
+                    {% endif %}
                 </div>
 
-                <form method="get" action="{% url 'main:show_education' %}">
+                <form method="get" action="{% url 'main:show_education' %}" class="education-search">
                     <input
                         type="search"
                         name="institution"
@@ -49,8 +51,12 @@
                                 <p class="education-description">{{ education.description }}</p>
 
                                 <div class="education-actions">
-                                    <a href="{% url 'main:update_education' education.id %}" class="button">Edit</a>
-                                    {% include "components/education_delete_modal.html" with education=education %}
+                                    {% include "components/education_star.html" with education=education %}
+
+                                    {% if user.is_superuser %}
+                                        <a href="{% url 'main:update_education' education.id %}" class="button">Edit</a>
+                                        {% include "components/education_delete_modal.html" with education=education %}
+                                    {% endif %}
                                 </div>
                             </div>
                         </article>

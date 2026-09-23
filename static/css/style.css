@@ -77,6 +77,19 @@ h1, .brand {
     color: var(--accent);
 }
 
+.mobile-nav {
+    display: none;
+}
+
+.mobile-nav summary {
+    list-style: none;
+    cursor: pointer;
+}
+
+.mobile-nav summary::-webkit-details-marker {
+    display: none;
+}
+
 /* Banner bergerak sebagai pemisah antara header dan profile */
 .marquee {
     width: 100%;
@@ -489,37 +502,53 @@ h1, .brand {
     line-height: 1;
 }
 
-.education-header {
+.education-header,
+.experience-header {
     display: flex;
     justify-content: flex-end;
     margin: 1.5rem 0 0.8rem;
 }
 
-.education-search {
+.education-search,
+.experience-search {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.8rem;
     margin-bottom: 2.5rem;
+    width: 100%;
 }
 
-.education-search input {
-    width: 260px;
-    padding: 0.75rem 1rem;
-    border: 1px solid #e9b4c5;
-    border-radius: 8px;
-    background: #fff;
-    font-family: inherit;
-    color: #33272a;
+.education-search input,
+.experience-search input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: "DM Mono", monospace;
+    font-size: 0.7rem;
+    box-sizing: border-box;
 }
 
-.education-search input:focus {
+.education-search input::placeholder,
+.experience-search input::placeholder {
+    color: var(--text-muted);
+}
+
+.education-search input:focus,
+.experience-search input:focus {
     outline: none;
-    border-color: #e86b91;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(232, 111, 145, 0.12);
 }
 
-.education-search .button {
+.education-search .button,
+.experience-search .button {
     width: auto;
+    flex-shrink: 0;
+    padding: 0.9rem 2.5rem;
 }
 
 .education-list {
@@ -805,9 +834,84 @@ h1, .brand {
     color: var(--accent);
 }
 
+.star-form {
+    display: inline;
+}
+
+.button-star {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--ink);
+}
+
+.button-star.is-starred {
+    background: var(--accent);
+}
+
+.star-count {
+    padding: 0.05rem 0.4rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.25);
+    font-size: 0.8rem;
+}
+
 /* Menyesuaikan layout untuk layar berukuran kecil */
 
 @media (max-width: 800px) {
+    .site-header .container {
+        position: relative;
+    }
+
+    .site-header > .container > nav {
+        display: none;
+    }
+
+    .mobile-nav {
+        display: block;
+        margin-left: auto;
+    }
+
+    .mobile-nav summary {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+    }
+
+    .mobile-nav[open] summary {
+        font-size: 0;
+    }
+
+    .mobile-nav[open] summary::after {
+        content: "×";
+        font-size: 1.7rem;
+    }
+
+    .mobile-nav nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        padding: 0.8rem 1.5rem;
+        background: var(--paper);
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        z-index: 10;
+    }
+
+    .mobile-nav nav a,
+    .mobile-nav nav .nav-user {
+        display: block;
+        width: 100%;
+        padding: 0.8rem 0;
+    }
+
     .experience-list {
         grid-template-columns: 1fr;
         gap: 2.5rem;
@@ -848,23 +952,6 @@ h1, .brand {
             "details";
     }
 
-    .site-header .container {
-        flex-direction: column;
-        gap: 0.5rem;
-        padding-top: 0.7rem;
-        padding-bottom: 0.7rem;
-    }
-
-    .site-header .brand {
-        width: 100%;
-        font-size: 1.8rem;
-    }
-
-    .site-header nav {
-        width: 100%;
-        gap: 1.8rem;
-    }
-
     .hero-photo {
         max-width: 220px;
         margin: 0 auto;
@@ -882,20 +969,26 @@ h1, .brand {
         flex-direction: column;
     }
 
-    .education-header {
+    .education-header,
+    .experience-header {
         justify-content: stretch;
     }
 
-    .education-header .button {
+    .education-header .button,
+    .experience-header .button {
         width: 100%;
     }
 
-    .education-search {
+    .education-search,
+    .experience-search {
         flex-direction: column;
+        width: 100%;
     }
 
-    .education-search .button {
+    .education-search input .education-search .button,
+    .experience-search input .experience-search .button {
         width: 100%;
+        box-sizing: border-box;
     }
 
     .education-actions {
