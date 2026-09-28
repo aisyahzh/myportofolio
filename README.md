@@ -36,9 +36,6 @@ Website portofolio pribadi yang dibuat sebagai bagian dari Tugas PBP. Website in
 myportfolio/
 ├── main/
 │   ├── migrations/
-│   │   ├── __init__.py
-│   │   ├── 0001_initial.py
-│   │   └── 0002_education.py
 │   ├── __init__.py
 │   ├── admin.py
 │   ├── apps.py
@@ -60,12 +57,18 @@ myportfolio/
 │   └── img/
 ├── templates/
 │   ├── components/
-│   │   └── education_delete_modal.html
+│   │   ├── education_delete_modal.html
+│   │   ├── education_star.html
+│   │   ├── experience_delete_modal.html
+│   │   └── experience_star.html
+│   ├── base.html
 │   ├── education.html
 │   ├── education_form.html
 │   ├── experience.html
 │   ├── experience_form.html
-│   └── index.html
+│   ├── index.html
+│   ├── login.html
+│   └── register.html
 ├── manage.py
 ├── requirements.txt
 └── README.md
@@ -138,6 +141,28 @@ http://127.0.0.1:8000/
 - Menambahkan empty state ketika belum ada data pendidikan.
 - Menambahkan unit tests untuk page Education.
 
+### Tutorial dan Tugas 3
+
+- Menambahkan ModelForm untuk form Experience dan Education.
+- Menambahkan fitur Create, Update, dan Delete.
+- Menambahkan endpoint JSON untuk Experience dan Education.
+- Mengimplementasikan serialization dan deserialization data.
+- Menambahkan search pada data Experience dan Education.
+- Menambahkan CSRF token pada form.
+- Menambahkan delete confirmation modal.
+
+### Tutorial dan Tugas 4
+
+- Menambahkan authentication untuk pengguna.
+- Menambahkan role Editor menggunakan Django Group.
+- Menerapkan role-based access untuk Create, Update, dan Delete.
+- Menambahkan fitur Star pada Experience dan Education menggunakan ManyToManyField.
+- Menambahkan fitur Star dan Unstar untuk pengguna yang sudah login.
+- Menampilkan jumlah Star dan status Star pengguna.
+- Menambahkan pembatasan akses pada setiap aksi berdasarkan role pengguna.
+- Menambahkan komponen Star dan delete modal pada template.
+- Melakukan testing fitur dan role secara manual.
+
 ## Refleksi
 
 ### Tugas 1
@@ -160,6 +185,7 @@ Ketika mengatur CSS agar tetap responsive, tantangan yang saya temukan adalah me
 Karena website yang dibuat masih berupa static web, informasi pada portofolio masih harus ditulis langsung di dalam HTML dan membuat proses mengelola informasi menjadi kurang fleksibel. Pada iterasi selanjutnya, saya ingin menambahkan fungsionalitas dinamis agar informasi dapat ditambah atau diperbarui dengan lebih mudah tanpa harus mengubah isi HTML secara langsung.
 
 **AI Disclosure**
+
 Saya menggunakan ChatGPT sebagai alat bantu selama proses pengerjaan Tugas 1. AI digunakan untuk mendiskusikan alternatif desain dan layout, menjelaskan konsep HTML dan CSS yang belum saya pahami (seperti penggunaan `<details>` dan `<summary>` yang saya gunakan pada section Experience), serta membantu mengevaluasi dan melakukan troubleshooting pada kode.
 
 Saya tetap memahami, memilih, dan mengimplementasikan perubahan pada kode secara manual. Setiap saran dari AI saya pertimbangkan kembali berdasarkan kebutuhan desain dan ketentuan tugas.
@@ -221,8 +247,16 @@ Pada website saya, fungsi `get_experience_json` mengambil data dari model `Exper
 
 *Serialization* diperlukan karena data dari model Django masih berupa object Django. Data tersebut perlu diubah menjadi JSON agar bisa dikirim sebagai response. Setelah itu, JSON dapat di-*deserialize* kembali menjadi object Django untuk ditampilkan pada halaman Experience.
 
-### AI Disclosure
+**AI Disclosure**
 
 Saya menggunakan ChatGPT sebagai alat bantu selama proses pengerjaan Tugas 3. AI digunakan untuk membantu memahami konsep-konsep yang belum diketahui serta membantu melakukan troubleshooting pada kode.
+
+Saya tetap memahami, memilih, dan mengimplementasikan perubahan pada kode secara manual. Setiap saran dari AI saya pertimbangkan kembali berdasarkan kebutuhan proyek dan ketentuan tugas.
+
+### Tugas 4
+
+**AI Disclosure**
+
+Saya menggunakan ChatGPT sebagai alat bantu selama proses pengerjaan Tugas 4. AI digunakan untuk membantu memahami konsep Django Group, ManyToManyField, serta membantu melakukan troubleshooting pada kode.
 
 Saya tetap memahami, memilih, dan mengimplementasikan perubahan pada kode secara manual. Setiap saran dari AI saya pertimbangkan kembali berdasarkan kebutuhan proyek dan ketentuan tugas.
