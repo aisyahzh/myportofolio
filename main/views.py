@@ -252,6 +252,18 @@ def logout_user(request):
     return response
 
 @login_required(login_url="/login/")
+def toggle_star_experience(request, experience_id):
+    experience = get_object_or_404(Experience, id=experience_id)
+
+    if request.method == "POST":
+        if request.user in experience.starred_by.all():
+            experience.starred_by.remove(request.user)
+        else:
+            experience.starred_by.add(request.user)
+
+    return redirect("main:show_experience")
+
+@login_required(login_url="/login/")
 def toggle_star_education(request, education_id):
     education = get_object_or_404(Education, id=education_id)
 

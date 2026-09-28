@@ -73,6 +73,10 @@
                             </div>
 
                             <div class="experience-actions">
+                                {% if user.is_authenticated %}
+                                    {% include "components/experience_star.html" with experience=experience %}
+                                {% endif %}
+                                
                                 {% if is_editor or user.is_superuser %}
                                     <a href="{% url 'main:update_experience' experience.id %}" class="button">Edit</a>
                                 {% endif %}
