@@ -41,10 +41,16 @@ def show_experience(request):
 
     title_query = request.GET.get("title", "").strip()
 
+    is_editor = (
+        request.user.is_authenticated
+        and request.user.groups.filter(name="Editor").exists()
+    )
+
     context = {
         "name": NAME,
         "experience_list": experience_list,
         "title_query": title_query,
+        "is_editor": is_editor,
     }
     return render(request, "experience.html", context)
 
@@ -59,10 +65,16 @@ def show_education(request):
 
     institution_query = request.GET.get("institution", "").strip()
 
+    is_editor = (
+        request.user.is_authenticated
+        and request.user.groups.filter(name="Editor").exists()
+    )
+
     context = {
         "name": NAME,
         "education_list": education_list,
         "institution_query": institution_query,
+        "is_editor": is_editor,
     }
     return render(request, "education.html", context)
 
@@ -130,10 +142,35 @@ def get_education_json(request):
     return HttpResponse(education_json, content_type="application/json")
 
 @login_required(login_url="/login/")
-def update_education(request, education_id):
-    if not request.user.is_superuser:
+def update_experience(request, experience_id):
+    is_editor = request.user.groups.filter(name="Editor").exists()
+
+    if not (request.user.is_superuser or is_editor):
         raise PermissionDenied
-    
+
+    experience = get_object_or_404(Experience, id=experience_id)
+    form = ExperienceForm(request.POST or None, instance=experience)
+
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Experience updated successfully!")
+            return redirect("main:show_experience")
+
+    context = {
+        "name": NAME,
+        "form": form,
+        "experience": experience,
+    }
+    return render(request, "experience_form.html", context)
+
+@login_required(login_url="/login/")
+def update_education(request, education_id):
+    is_editor = request.user.groups.filter(name="Editor").exists()
+
+    if not (request.user.is_superuser or is_editor):
+        raise PermissionDenied
+
     education = get_object_or_404(Education, id=education_id)
     form = EducationForm(request.POST or None, instance=education)
 
@@ -149,6 +186,20 @@ def update_education(request, education_id):
         "education": education,
     }
     return render(request, "education_form.html", context)
+
+@login_required(login_url="/login/")
+def delete_experience(request, experience_id):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+
+    experience = get_object_or_404(Experience, id=experience_id)
+
+    if request.method == "POST":
+        experience.delete()
+        messages.success(request, "Experience deleted successfully!")
+        return redirect("main:show_experience")
+
+    return redirect("main:show_experience")
 
 @login_required(login_url="/login/")
 def delete_education(request, education_id):

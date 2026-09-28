@@ -90,6 +90,11 @@ h1, .brand {
     display: none;
 }
 
+.nav-user {
+    color: var(--accent);
+    font-weight: 600;
+}
+
 /* Banner bergerak sebagai pemisah antara header dan profile */
 .marquee {
     width: 100%;
@@ -333,7 +338,6 @@ h1, .brand {
 .experience-card {
     width: 100%;
     max-width: 420px;
-    aspect-ratio: 632 / 508;
     position: relative;
     isolation: isolate;
 }
@@ -342,7 +346,7 @@ h1, .brand {
 
 .experience-frame {
     width: 100%;
-    height: 100%;
+    aspect-ratio: 632 / 508;
     position: relative;
     display: flex;
     align-items: center;
@@ -650,7 +654,7 @@ h1, .brand {
     line-height: 1.6;
 }
 
-.education-actions {
+.education-actions, .experience-actions {
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -658,7 +662,7 @@ h1, .brand {
     margin-top: 1.2rem;
 }
 
-.education-actions .button {
+.education-actions .button, .experience-actions .button {
     width: auto;
     padding: 0.45rem 0.75rem;
     font-size: 0.6rem;
@@ -981,21 +985,26 @@ h1, .brand {
 
     .education-search,
     .experience-search {
-        flex-direction: column;
-        width: 100%;
+        gap: 0.5rem;
     }
 
-    .education-search input .education-search .button,
-    .experience-search input .experience-search .button {
-        width: 100%;
-        box-sizing: border-box;
+    .education-search input,
+    .experience-search input {
+        padding: 0.7rem 0.8rem;
+        font-size: 0.65rem;
     }
 
-    .education-actions {
+    .education-search .button,
+    .experience-search .button {
+        padding: 0.7rem 1rem;
+        font-size: 0.65rem;
+    }
+
+    .education-actions, .experience-actions .button {
         flex-direction: row;
     }
 
-    .education-actions .button {
+    .education-actions .button, .experience-actions .button {
         width: auto;
         flex: 1;
     }
