@@ -58,9 +58,12 @@ myportfolio/
 ├── templates/
 │   ├── components/
 │   │   ├── education_delete_modal.html
+│   │   ├── education_form_modal.html
 │   │   ├── education_star.html
 │   │   ├── experience_delete_modal.html
-│   │   └── experience_star.html
+│   │   ├── experience_form_modal.html
+│   │   ├── experience_star.html
+│   │   └── toast.html
 │   ├── base.html
 │   ├── education.html
 │   ├── education_form.html
@@ -163,6 +166,15 @@ http://127.0.0.1:8000/
 - Menambahkan komponen Star dan delete modal pada template.
 - Melakukan testing fitur dan role secara manual.
 
+### Tutorial dan Tugas 5
+
+- Menerapkan AJAX menggunakan Fetch API untuk menampilkan data Experience dan Education.
+- Menambahkan fitur search dengan debounce.
+- Menambahkan modal untuk menambahkan Education menggunakan AJAX.
+- Menambahkan toast notification untuk menampilkan pesan berhasil dan gagal.
+- Menambahkan perlindungan XSS menggunakan `escapeHtml()`.
+- Menambahkan `strip_tags()` pada `ModelForm` untuk membersihkan input.
+
 ## Refleksi
 
 ### Tugas 1
@@ -258,5 +270,31 @@ Saya tetap memahami, memilih, dan mengimplementasikan perubahan pada kode secara
 **AI Disclosure**
 
 Saya menggunakan ChatGPT sebagai alat bantu selama proses pengerjaan Tugas 4. AI digunakan untuk membantu memahami konsep Django Group, ManyToManyField, serta membantu melakukan troubleshooting pada kode.
+
+Saya tetap memahami, memilih, dan mengimplementasikan perubahan pada kode secara manual. Setiap saran dari AI saya pertimbangkan kembali berdasarkan kebutuhan proyek dan ketentuan tugas.
+
+### Tugas 5
+
+> 1. Jelaskan apa itu debouncing dan mengapa teknik ini penting diterapkan pada fitur pencarian yang menggunakan AJAX!
+
+**Jawaban:**
+
+Debouncing adalah teknik untuk memberi jeda sebelum menjalankan suatu fungsi. Pada fitur search di website saya, debouncing digunakan supaya request AJAX tidak langsung dikirim setiap kali saya mengetik. Request baru dikirim setelah saya berhenti mengetik selama beberapa saat. Menurut saya, ini penting karena jumlah request ke server jadi lebih sedikit dan fitur search tidak terlalu banyak mengirim request yang sebenarnya tidak diperlukan.
+
+> 2. Jelaskan fungsi dari penggunaan `await` ketika kita menggunakan `fetch()`! Apa yang akan terjadi jika kita tidak menggunakan `await`?
+
+**Jawaban:**
+
+`await` digunakan untuk menunggu proses `fetch()` sampai selesai sebelum menjalankan kode berikutnya. Dengan begitu, saya bisa mendapatkan response dari server dan menggunakan data yang sudah diterima. Kalau tidak menggunakan `await`, hasil dari `fetch()` masih berupa Promise sehingga response-nya belum bisa langsung digunakan.
+
+> 3. Jelaskan apa itu serangan XSS (*Cross-Site Scripting*) dan mengapa data yang ditampilkan melalui AJAX/JavaScript lebih rentan terhadap serangan ini daripada data yang ditampilkan langsung melalui *template* Django!
+
+**Jawaban:**
+
+XSS adalah serangan ketika seseorang memasukkan kode HTML atau JavaScript yang berbahaya ke dalam website dan kode tersebut kemudian dijalankan di browser. Pada template Django, data biasanya sudah dibantu oleh fitur autoescape. Sedangkan pada AJAX, data dari server saya masukkan sendiri ke halaman menggunakan JavaScript, misalnya dengan `innerHTML`, sehingga saya perlu melakukan escaping sendiri. Karena itu, pada website saya menggunakan fungsi `escapeHtml()` sebelum data dari AJAX dimasukkan ke halaman.
+
+**AI Disclosure**
+
+Saya menggunakan ChatGPT sebagai alat bantu selama proses pengerjaan Tugas 5. AI digunakan untuk membantu memahami konsep AJAX, Fetch API, debouncing, CSRF, toast notification, dan XSS, serta membantu melakukan troubleshooting pada implementasi Experience dan Education.
 
 Saya tetap memahami, memilih, dan mengimplementasikan perubahan pada kode secara manual. Setiap saran dari AI saya pertimbangkan kembali berdasarkan kebutuhan proyek dan ketentuan tugas.
