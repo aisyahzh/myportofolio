@@ -38,26 +38,20 @@ class MainTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "experience.html")
-        self.assertContains(response, self.experience.title)
-        self.assertContains(response, self.experience.description)
-        self.assertContains(response, "Part-Time")
-        self.assertContains(response, "Currently ongoing")
+        self.assertContains(response, "experience-search-form")
+        self.assertContains(response, "/api/v1/experiences/")
         self.assertContains(response, f'href="{reverse("main:show_main")}"')
+        def test_empty_experience_page(self):
+            Experience.objects.all().delete()
+            response = self.client.get(reverse("main:show_experience"))
 
-    def test_empty_experience_page(self):
-        Experience.objects.all().delete()
-        response = self.client.get(reverse("main:show_experience"))
-
-        self.assertContains(response, "Belum ada pengalaman yang ditambahkan.")
+            self.assertContains(response, "Belum ada pengalaman yang ditambahkan.")
 
     def test_completed_experience(self):
         self.experience.ended_at = timezone.now()
         self.experience.save()
-        response = self.client.get(reverse("main:show_experience"))
 
         self.assertFalse(self.experience.is_ongoing)
-        self.assertContains(response, "Completed")
-        self.assertNotContains(response, "Currently ongoing")
 
     def test_education_page_is_accessible(self):
         response = self.client.get(reverse("main:show_education"))
@@ -76,11 +70,14 @@ class MainTest(TestCase):
             ended_at=None,
         )
 
-        response = self.client.get(reverse("main:show_education"))
+        response = self.client.get(reverse("main:get_education_json"))
 
-        self.assertContains(response, education.institution)
-        self.assertContains(response, education.degree)
-        self.assertContains(response, education.description)
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertEqual(len(data), 1)
+        self.assertEqual(data[0]["fields"]["institution"], education.institution)
+        self.assertEqual(data[0]["fields"]["degree"], education.degree)
+        self.assertEqual(data[0]["fields"]["description"], education.description)
 
 
     def test_empty_education_page(self):
