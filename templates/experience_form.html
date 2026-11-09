@@ -1,7 +1,13 @@
 {% extends "base.html" %}
 
 {% block meta %}
-    <title>Add Experience - {{ name }}</title>
+    <title>
+        {% if experience %}
+            Edit Experience - {{ name }}
+        {% else %}
+            Add Experience - {{ name }}
+        {% endif %}
+    </title>
 {% endblock meta %}
 
 {% block content %}
@@ -10,16 +16,26 @@
             <div class="container">
                 <div class="form-heading">
                     <span>★</span>
-                    <h1>Add Experience</h1>
+                    <h1>
+                        {% if experience %}
+                            Edit Experience
+                        {% else %}
+                            Add Experience
+                        {% endif %}
+                    </h1>
                     <span>★</span>
                 </div>
 
-                <form method="post" action="{% url 'main:create_experience' %}" class="experience-form">
+                <form method="post"
+                    action="{% if experience %}{% url 'main:update_experience' experience.id %}{% else %}{% url 'main:create_experience' %}{% endif %}"
+                    class="experience-form">
                     {% csrf_token %}
+
                     {% for field in form %}
                         <div class="form-group">
                             <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                             {{ field }}
+
                             {% for error in field.errors %}
                                 <p class="form-error">{{ error }}</p>
                             {% endfor %}
@@ -27,11 +43,135 @@
                     {% endfor %}
 
                     <div class="form-actions">
-                        <button type="submit" class="button">Add Experience</button>
-                        <a href="{% url 'main:show_experience' %}" class="button button-secondary">Cancel</a>
+                        <button type="submit" class="button">
+                            {% if experience %}
+                                Save Changes
+                            {% else %}
+                                Add Experience
+                            {% endif %}
+                        </button>
+
+                        <a href="{% url 'main:show_experience' %}" class="button button-secondary">
+                            Cancel
+                        </a>
                     </div>
                 </form>
             </div>
         </section>
     </main>
+
+    {% if experience %}
+        <script>
+            const experienceForm = document.querySelector(".experience-form");
+
+            function getCookie(name) {
+                let cookieValue = null;
+
+                if (document.cookie && document.cookie !== "") {
+                    const cookies = document.cookie.split(";");
+
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+
+                        if (cookie.substring(0, name.length + 1) === (name + "=")) {
+                            cookieValue = decodeURIComponent(
+                                cookie.substring(name.length + 1)
+                            );
+                            break;
+                        }
+                    }
+                }
+
+                return cookieValue;
+            }
+
+            function getApiErrorMessage(result, statusCode) {
+                if (!result || typeof result !== "object") {
+                    return `Terjadi kesalahan (status ${statusCode}).`;
+                }
+
+                if (result.detail) {
+                    return result.detail;
+                }
+
+                const messages = [];
+
+                Object.values(result).forEach(value => {
+                    if (Array.isArray(value)) {
+                        messages.push(...value);
+                    } else if (typeof value === "string") {
+                        messages.push(value);
+                    }
+                });
+
+                return messages.length > 0
+                    ? messages.join(" ")
+                    : `Terjadi kesalahan (status ${statusCode}).`;
+            }
+
+            experienceForm.addEventListener("submit", async function(event) {
+                event.preventDefault();
+
+                const submitButton = experienceForm.querySelector('button[type="submit"]');
+                submitButton.disabled = true;
+
+                const formData = new FormData(experienceForm);
+
+                const payload = {
+                    title: formData.get("title"),
+                    role: formData.get("role"),
+                    description: formData.get("description"),
+                    category: formData.get("category"),
+                    thumbnail: formData.get("thumbnail") || null,
+                    started_at: formData.get("started_at"),
+                    ended_at: formData.get("ended_at") || null,
+                };
+
+                const endpoint = "{% url 'api:experience-detail' experience.id %}";
+
+                try {
+                    const response = await fetch(endpoint, {
+                        method: "PATCH",
+                        headers: {
+                            "Accept": "application/json",
+                            "Content-Type": "application/json",
+                            "X-CSRFToken": getCookie("csrftoken")
+                        },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const result = await response.json().catch(() => ({}));
+
+                    if (!response.ok) {
+                        showToast(
+                            "Gagal mengubah experience",
+                            getApiErrorMessage(result, response.status),
+                            "error"
+                        );
+                        return;
+                    }
+
+                    showToast(
+                        "Berhasil",
+                        "Experience berhasil diperbarui!",
+                        "success"
+                    );
+
+                    window.setTimeout(function() {
+                        window.location.href = "{% url 'main:show_experience' %}";
+                    }, 500);
+                } catch (error) {
+                    console.error("Error updating experience:", error);
+
+                    showToast(
+                        "Gagal mengubah experience",
+                        "Tidak dapat terhubung ke server. Silakan coba lagi.",
+                        "error"
+                    );
+                } finally {
+                    submitButton.disabled = false;
+                }
+            });
+        </script>
+    {% endif %}
 {% endblock content %}
