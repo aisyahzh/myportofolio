@@ -38,10 +38,15 @@ myportfolio/
 │   ├── migrations/
 │   ├── __init__.py
 │   ├── admin.py
+│   ├── api_urls.py
+│   ├── api_views.py
 │   ├── apps.py
 │   ├── forms.py
 │   ├── models.py
+│   ├── permissions.py
+│   ├── serializers.py
 │   ├── tests.py
+│   ├── tests_api.py
 │   ├── urls.py
 │   └── views.py
 ├── portofolio/
@@ -175,6 +180,15 @@ http://127.0.0.1:8000/
 - Menambahkan perlindungan XSS menggunakan `escapeHtml()`.
 - Menambahkan `strip_tags()` pada `ModelForm` untuk membersihkan input.
 
+### Tutorial 7 dan Tugas 6**
+
+- Mengimplementasikan Django REST Framework (DRF) pada Experience dan Education.
+- Membuat serializer, API view, dan endpoint untuk menampilkan serta mengubah data.
+- Menambahkan permission berdasarkan role pengguna.
+- Mengubah halaman Experience dan Education agar menggunakan Fetch API ke endpoint `/api/v1/`.
+- Menambahkan fitur star, search, create, update, dan delete melalui API.
+- Menambahkan test API menggunakan `APITestCase`.
+
 ## Refleksi
 
 ### Tugas 1
@@ -296,5 +310,45 @@ XSS adalah serangan ketika seseorang memasukkan kode HTML atau JavaScript yang b
 **AI Disclosure**
 
 Saya menggunakan ChatGPT sebagai alat bantu selama proses pengerjaan Tugas 5. AI digunakan untuk membantu memahami konsep AJAX, Fetch API, debouncing, CSRF, toast notification, dan XSS, serta membantu melakukan troubleshooting pada implementasi Experience dan Education.
+
+Saya tetap memahami, memilih, dan mengimplementasikan perubahan pada kode secara manual. Setiap saran dari AI saya pertimbangkan kembali berdasarkan kebutuhan proyek dan ketentuan tugas.
+
+### Tugas 6
+
+> 1. Jelaskan apa yang dimaksud dengan REST dan mengapa mengembalikan JSON saja belum cukup untuk menyebut sebuah API sebagai RESTful! Jelaskan pula perbedaan PUT dan PATCH beserta contoh kapan masing-masing sebaiknya digunakan!
+
+**Jawaban:**
+
+REST adalah pendekatan dalam membuat API dengan menggunakan resource dan HTTP method seperti `GET`, `POST`, `PUT`, `PATCH`, dan `DELETE`. Mengembalikan data dalam bentuk JSON saja belum cukup untuk disebut RESTful karena JSON hanya merupakan format data. API juga perlu menggunakan endpoint, method, dan status HTTP dengan sesuai.
+
+`PUT` digunakan untuk mengganti data secara keseluruhan, sedangkan `PATCH` digunakan untuk mengubah sebagian data saja. Misalnya, jika saya hanya ingin mengubah nama institution pada Education, saya dapat menggunakan `PATCH` tanpa harus mengirim seluruh data Education.
+
+> 2. Jelaskan peran serializer pada Django REST Framework! Apa keuntungannya dibandingkan merakit dictionary secara manual dengan JsonResponse seperti pada Tutorial 05?
+
+**Jawaban:**
+
+Serializer pada Django REST Framework digunakan untuk mengubah data dari model Django menjadi data yang dapat dikirim melalui API, sekaligus melakukan validasi terhadap data yang masuk.
+
+Dibandingkan membuat dictionary secara manual menggunakan `JsonResponse`, serializer membuat kode menjadi lebih terstruktur. Field yang ingin ditampilkan, validasi input, serta field tambahan seperti jumlah star dapat diatur di dalam serializer sehingga lebih mudah dikelola.
+
+> 3. Jelaskan perbedaan autentikasi dan otorisasi pada Django REST Framework! Mengapa hak akses harus diperiksa dengan permission class di server, bukan hanya dengan menyembunyikan tombol di template?
+
+**Jawaban:**
+
+Autentikasi digunakan untuk mengetahui siapa pengguna yang sedang melakukan request, sedangkan otorisasi digunakan untuk menentukan tindakan apa saja yang boleh dilakukan oleh pengguna tersebut.
+
+Hak akses harus tetap diperiksa menggunakan permission class di server karena menyembunyikan tombol di template hanya mengubah tampilan halaman. Pengguna masih dapat mencoba mengirim request langsung ke endpoint API. Dengan permission class, server tetap dapat menolak request yang tidak sesuai dengan hak akses pengguna.
+
+> 4. Jelaskan mengapa permintaan yang mengubah data tetap memerlukan token CSRF ketika API memakai SessionAuthentication! Mengapa test yang memakai force_authenticate tidak cukup untuk membuktikan bahwa perlindungan CSRF berjalan?
+
+**Jawaban:**
+
+Ketika API menggunakan `SessionAuthentication`, browser masih menggunakan cookie session untuk mengenali pengguna. Karena itu, request yang mengubah data tetap memerlukan token CSRF untuk memastikan bahwa request berasal dari halaman yang sah.
+
+`force_authenticate()` tidak cukup untuk menguji perlindungan CSRF karena method tersebut langsung mengautentikasi user pada saat testing. Oleh karena itu, diperlukan test menggunakan `APIClient(enforce_csrf_checks=True)` dan `.login()` supaya proses session dan pemeriksaan CSRF benar-benar diuji.
+
+**AI Disclosure**
+
+Saya menggunakan ChatGPT sebagai alat bantu selama proses pengerjaan Tugas 6. AI digunakan untuk membantu memahami konsep Django REST Framework, serializer, permission, authentication, CSRF, serta membantu melakukan troubleshooting pada implementasi API dan testing.
 
 Saya tetap memahami, memilih, dan mengimplementasikan perubahan pada kode secara manual. Setiap saran dari AI saya pertimbangkan kembali berdasarkan kebutuhan proyek dan ketentuan tugas.
