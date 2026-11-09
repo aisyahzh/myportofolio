@@ -1124,13 +1124,13 @@ h1, .brand {
         font-size: 0.65rem;
     }
 
-    .education-actions, .experience-actions .button {
+    .education-actions, .experience-actions {
         flex-direction: row;
     }
 
     .education-actions .button, .experience-actions .button {
         width: auto;
-        flex: 1;
+        flex: 0 0 auto;
     }
 
     .education-delete-modal {
