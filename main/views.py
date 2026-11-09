@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied    
 from django.http import JsonResponse   
 from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 from main.models import Experience, Education
 from main.forms import ExperienceForm, EducationForm
@@ -32,6 +33,7 @@ def show_main(request):
     }
     return render(request, "index.html", context)
 
+@ensure_csrf_cookie
 def show_experience(request):
     title_query = request.GET.get("title", "").strip()
 
@@ -48,6 +50,7 @@ def show_experience(request):
     }
     return render(request, "experience.html", context)
 
+@ensure_csrf_cookie
 def show_education(request):
     institution_query = request.GET.get("institution", "").strip()
 

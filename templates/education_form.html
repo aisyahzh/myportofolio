@@ -54,4 +54,116 @@
             </div>
         </section>
     </main>
+
+    <script>
+        const educationForm = document.querySelector(".education-form");
+
+        function getCookie(name) {
+            let cookieValue = null;
+
+            if (document.cookie && document.cookie !== "") {
+                const cookies = document.cookie.split(";");
+
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+
+                    if (cookie.substring(0, name.length + 1) === (name + "=")) {
+                        cookieValue = decodeURIComponent(
+                            cookie.substring(name.length + 1)
+                        );
+                        break;
+                    }
+                }
+            }
+
+            return cookieValue;
+        }
+
+        function getApiErrorMessage(result, statusCode) {
+            if (!result || typeof result !== "object") {
+                return `Terjadi kesalahan (status ${statusCode}).`;
+            }
+
+            if (result.detail) {
+                return result.detail;
+            }
+
+            const messages = [];
+
+            Object.values(result).forEach(value => {
+                if (Array.isArray(value)) {
+                    messages.push(...value);
+                } else if (typeof value === "string") {
+                    messages.push(value);
+                }
+            });
+
+            return messages.length > 0
+                ? messages.join(" ")
+                : `Terjadi kesalahan (status ${statusCode}).`;
+        }
+
+        educationForm.addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const submitButton = educationForm.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+
+            const formData = new FormData(educationForm);
+
+            const payload = {
+                institution: formData.get("institution"),
+                degree: formData.get("degree"),
+                description: formData.get("description"),
+                thumbnail: formData.get("thumbnail") || null,
+                started_at: formData.get("started_at"),
+                ended_at: formData.get("ended_at") || null,
+            };
+
+            const endpoint = "{% url 'api:education-detail' education.id %}";
+
+            try {
+                const response = await fetch(endpoint, {
+                    method: "PATCH",
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": getCookie("csrftoken")
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json().catch(() => ({}));
+
+                if (!response.ok) {
+                    showToast(
+                        "Gagal mengubah education",
+                        getApiErrorMessage(result, response.status),
+                        "error"
+                    );
+                    return;
+                }
+
+                showToast(
+                    "Berhasil",
+                    "Education berhasil diperbarui!",
+                    "success"
+                );
+
+                window.setTimeout(function() {
+                    window.location.href = "{% url 'main:show_education' %}";
+                }, 500);
+            } catch (error) {
+                console.error("Error updating education:", error);
+
+                showToast(
+                    "Gagal mengubah education",
+                    "Tidak dapat terhubung ke server. Silakan coba lagi.",
+                    "error"
+                );
+            } finally {
+                submitButton.disabled = false;
+            }
+        });
+    </script>
 {% endblock content %}
