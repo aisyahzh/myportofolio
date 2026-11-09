@@ -5,7 +5,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
 
-from main.models import Experience
+from main.models import Experience, Education
 
 
 class ExperienceAPITest(APITestCase):
@@ -131,7 +131,7 @@ class ExperienceAPITest(APITestCase):
 
         response = self.client.post(self.list_url, self.payload, format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-        
+
         response = self.client.delete(self.detail_url)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
@@ -157,3 +157,256 @@ class ExperienceAPITest(APITestCase):
             self.list_url, self.payload, format="json", HTTP_X_CSRFTOKEN=token,
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+class EducationAPITest(APITestCase):
+    def setUp(self):
+        self.owner = User.objects.create_superuser(
+            username="owner_education",
+            password="password123",
+        )
+
+        self.visitor = User.objects.create_user(
+            username="visitor_education",
+            password="password123",
+        )
+
+        self.editor = User.objects.create_user(
+            username="editor_education",
+            password="password123",
+        )
+
+        editor_group = Group.objects.create(name="Editor")
+        self.editor.groups.add(editor_group)
+
+        self.education = Education.objects.create(
+            institution="Universitas Indonesia",
+            degree="S1 Sistem Informasi",
+            description="Belajar Sistem Informasi.",
+            started_at="2025-08-01T00:00:00Z",
+        )
+
+        self.list_url = reverse("api:education-list")
+        self.detail_url = reverse(
+            "api:education-detail",
+            kwargs={"education_id": self.education.id},
+        )
+        self.star_url = reverse(
+            "api:education-star",
+            kwargs={"education_id": self.education.id},
+        )
+
+        self.payload = {
+            "institution": "University of Indonesia",
+            "degree": "Bachelor of Information Systems",
+            "description": "Studying information systems.",
+            "thumbnail": None,
+            "started_at": "2025-08-01T00:00:00Z",
+            "ended_at": None,
+        }
+
+    def test_public_can_view_education_list_and_detail(self):
+        response = self.client.get(self.list_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = self.client.get(self.detail_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["institution"], self.education.institution)
+
+    def test_education_search_and_empty_result(self):
+        response = self.client.get(self.list_url, {"institution": "Indonesia"})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+
+        response = self.client.get(self.list_url, {"institution": "Tidak Ada"})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 0)
+
+    def test_missing_education_returns_404(self):
+        missing_url = reverse(
+            "api:education-detail",
+            kwargs={"education_id": "00000000-0000-0000-0000-000000000000"},
+        )
+
+        response = self.client.get(missing_url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_guest_cannot_create_education(self):
+        initial_count = Education.objects.count()
+
+        response = self.client.post(
+            self.list_url,
+            self.payload,
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(Education.objects.count(), initial_count)
+
+    def test_regular_user_cannot_create_update_or_delete_education(self):
+        self.client.force_authenticate(user=self.visitor)
+        initial_count = Education.objects.count()
+        original_institution = self.education.institution
+
+        response = self.client.post(
+            self.list_url,
+            self.payload,
+            format="json",
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(Education.objects.count(), initial_count)
+
+        response = self.client.patch(
+            self.detail_url,
+            {"institution": "Changed"},
+            format="json",
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        self.education.refresh_from_db()
+        self.assertEqual(self.education.institution, original_institution)
+
+        response = self.client.delete(self.detail_url)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertTrue(Education.objects.filter(id=self.education.id).exists())
+
+    def test_editor_can_patch_but_cannot_create_or_delete(self):
+        self.client.force_authenticate(user=self.editor)
+        initial_count = Education.objects.count()
+
+        response = self.client.patch(
+            self.detail_url,
+            {"institution": "Updated University"},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.education.refresh_from_db()
+        self.assertEqual(self.education.institution, "Updated University")
+
+        response = self.client.post(
+            self.list_url,
+            self.payload,
+            format="json",
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(Education.objects.count(), initial_count)
+
+        response = self.client.delete(self.detail_url)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertTrue(Education.objects.filter(id=self.education.id).exists())
+
+    def test_owner_can_create_education(self):
+        self.client.force_authenticate(user=self.owner)
+
+        response = self.client.post(
+            self.list_url,
+            self.payload,
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertTrue(
+            Education.objects.filter(
+                institution="University of Indonesia"
+            ).exists()
+        )
+
+    def test_owner_can_delete_education(self):
+        self.client.force_authenticate(user=self.owner)
+
+        response = self.client.delete(self.detail_url)
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(
+            Education.objects.filter(id=self.education.id).exists()
+        )
+
+    def test_education_validation_strips_html_and_rejects_empty_institution(self):
+        self.client.force_authenticate(user=self.owner)
+
+        payload = self.payload.copy()
+        payload["institution"] = "<b></b>"
+
+        response = self.client.post(
+            self.list_url,
+            payload,
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("institution", response.data)
+
+        payload["institution"] = "<b>Universitas Indonesia</b>"
+
+        response = self.client.post(
+            self.list_url,
+            payload,
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(
+            response.data["institution"],
+            "Universitas Indonesia",
+        )
+
+    def test_guest_cannot_star_education(self):
+        response = self.client.post(self.star_url)
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(self.education.starred_by.count(), 0)
+
+    def test_authenticated_user_can_toggle_star(self):
+        self.client.force_authenticate(user=self.visitor)
+
+        response = self.client.post(self.star_url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(
+            self.education.starred_by.filter(id=self.visitor.id).exists()
+        )
+        self.assertEqual(response.data["star_count"], 1)
+        self.assertTrue(response.data["is_starred"])
+
+        response = self.client.post(self.star_url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertFalse(
+            self.education.starred_by.filter(id=self.visitor.id).exists()
+        )
+        self.assertEqual(response.data["star_count"], 0)
+        self.assertFalse(response.data["is_starred"])
+
+    def test_computed_star_fields_are_read_only(self):
+        self.client.force_authenticate(user=self.owner)
+
+        response = self.client.patch(
+            self.detail_url,
+            {
+                "star_count": 999,
+                "is_starred": True,
+                "starred_by_names": "fake-user",
+            },
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["star_count"], 0)
+        self.assertFalse(response.data["is_starred"])
+        self.assertEqual(response.data["starred_by_names"], "")
+
+    def test_csrf_missing_token_is_rejected(self):
+        client = APIClient(enforce_csrf_checks=True)
+        client.login(
+            username="owner_education",
+            password="password123",
+        )
+
+        response = client.post(
+            self.list_url,
+            self.payload,
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
