@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from main.models import Experience, Education
 from main.permissions import IsPortfolioOwnerOrEditorOrReadOnly
 from main.serializers import ExperienceSerializer, EducationSerializer
+from rest_framework.authtoken.models import Token
 
 
 @api_view(["GET", "HEAD", "POST"])
@@ -151,3 +152,11 @@ def education_star(request, education_id):
     )
 
     return Response(serializer.data)
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def api_logout(request):
+    if request.auth is not None:
+        request.auth.delete()
+
+    return Response(status=status.HTTP_204_NO_CONTENT)
